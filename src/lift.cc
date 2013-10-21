@@ -68,8 +68,6 @@ int lift::delta() const {
 
 int lift::diameter() const {
 
-    timestamp_probe("LIFT::DIAMETER::BEGIN"); 
-
     vector<vertex>vertices = _gamma->vertices();
     int _max_distance = 0;
     for (vector<vertex>::const_iterator v = vertices.begin(); 
@@ -81,14 +79,12 @@ int lift::diameter() const {
             _max_distance = current_max_distance;            
         }
     }
-    timestamp_probe("LIFT::DIAMETER::END"); 
 
     return _max_distance;
 }
 
 bool lift::check_diameter(const int &expected_diameter) const {
 
-    timestamp_probe("LIFT::CHECK_DIAMETER::BEGIN"); 
     bool check = true;
     vector<vertex>vertices = _gamma->vertices();
 
@@ -99,20 +95,14 @@ bool lift::check_diameter(const int &expected_diameter) const {
             check = false;
     }
 
-    timestamp_probe("LIFT::CHECK_DIAMETER::END"); 
-
     return check;
 }
 
 int lift::bfs(const lift_vertex &u, const int &accepted_max_distance) const {
 
-    timestamp_probe("LIFT::MAXDISTANCE::QUEUE::CREATE::BEGIN"); 
     bfs_queue  *q = bfs_queue_factory::create_queue(size());
-    timestamp_probe("LIFT::MAXDISTANCE::QUEUE::CREATE::END"); 
 
-    timestamp_probe("LIFT::MAXDISTANCE::VISITED::CREATE::BEGIN"); 
     big_bitset visited(size());
-    timestamp_probe("LIFT::MAXDISTANCE::VISITED::CREATE::END"); 
 
     uint64_t lift_vertex_index = index_of(u);
     uint16_t distance = 0;
@@ -127,7 +117,6 @@ int lift::bfs(const lift_vertex &u, const int &accepted_max_distance) const {
     lift_vertex v = u;
     vector<lift_vertex> adj;
 
-    timestamp_probe("LIFT::MAXDISTANCE::COMPUTE::BEGIN"); 
     while (!q->empty()) {
 
         if ((accepted_max_distance != -1) && 
@@ -167,7 +156,6 @@ int lift::bfs(const lift_vertex &u, const int &accepted_max_distance) const {
         }
         adj.clear();
     }
-    timestamp_probe("LIFT::MAXDISTANCE::COMPUTE::END"); 
 
     delete q;
 

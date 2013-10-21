@@ -2,11 +2,11 @@ UTRACER_HOME=../../utracer
 UTRACER_INCLUDE=$(UTRACER_HOME)/include
 UTRACER_LIB=$(UTRACER_HOME)/lib
 
-#CXXFLAGS = -g -pg -pipe -W -Wall -pthread -pedantic -I$(UTRACER_INCLUDE) -fPIC   #profilling
-#CXXFLAGS = -g -pipe -W -Wall -pthread -pedantic -I$(UTRACER_INCLUDE) -fPIC  #debug
-CXXFLAGS = -O3 -pipe -W -Wall -pthread -pedantic -I$(UTRACER_INCLUDE) -fPIC  #release
+CXXFLAGS = -g -pg -pipe -W -Wall -pthread -pedantic -fPIC   #profilling
+#CXXFLAGS = -g -pipe -W -Wall -pthread -pedantic -fPIC  #debug
+#CXXFLAGS = -O3 -pipe -W -Wall -pthread -pedantic -fPIC  #release
 CXXLINK = $(CXXFLAGS) -lrt 
-LIBFLAGS= -L$(UTRACER_LIB) -lutracer
+#LIBFLAGS= -L$(UTRACER_LIB) -lutracer
 
 ################################################################################
 ## Objects
@@ -34,15 +34,15 @@ MPGL_OBJECT=mpgl.o
 ## Executable binaries
 ################################################################################
 
-LIFT_TEST_EXECUTABLE = lift_test
-ZMXZN_TEST_EXECUTABLE = zmxzn_test
-BIG_BITSET_TEST_EXECUTABLE = bitset_test
-BFS_QUEUE_TEST_EXECUTABLE = bfs_queue_test
-RANDOM_SEARCH_EXECUTABLE = random_search
-SRS_EXECUTABLE = srs
-TEST_GENERATE_TUPLE_EXECUTABLE=generate_tuple
-TEST_GENERATOR_EXECUTABLE=generator
-MPGL_EXECUTABLE=mpgl
+LIFT_TEST_EXECUTABLE = $(BINARIES_DIR)/lift_test
+ZMXZN_TEST_EXECUTABLE = $(BINARIES_DIR)/zmxzn_test
+BIG_BITSET_TEST_EXECUTABLE = $(BINARIES_DIR)/bitset_test
+BFS_QUEUE_TEST_EXECUTABLE = $(BINARIES_DIR)/bfs_queue_test
+RANDOM_SEARCH_EXECUTABLE = $(BINARIES_DIR)/random_search
+SRS_EXECUTABLE = $(BINARIES_DIR)/srs
+TEST_GENERATE_TUPLE_EXECUTABLE=$(BINARIES_DIR)/generate_tuple
+TEST_GENERATOR_EXECUTABLE=$(BINARIES_DIR)/generator
+MPGL_EXECUTABLE=$(BINARIES_DIR)/mpgl
 
 ################################################################################
 ## Executable binaries
@@ -56,7 +56,7 @@ ALL_EXEC = $(LIFT_TEST_EXECUTABLE) $(ZMXZN_TEST_EXECUTABLE) \
 
 ################################################################################
 
-all: $(ALL_EXEC) copy_executables
+all: make_bin_dir $(ALL_EXEC) 
 
 ################################################################################
 $(LIFT_TEST_EXECUTABLE): $(OBJECTS) $(LIFT_TEST_OBJECT)
@@ -89,15 +89,11 @@ $(SRS_EXECUTABLE) : $(OBJECTS) $(SRS_OBJECT)
 ################################################################################
 clean: clear
 
-copy_executables: $(ALL_EXEC)
-	@echo "deploying binaries..."
-	@mkdir -p $(BINARIES_DIR)
-	@cp -f $(ALL_EXEC) $(BINARIES_DIR)
+make_bin_dir: 
+	mkdir -p $(BINARIES_DIR)
 
 clear:
 	@echo "cleaning..."
-	@rm -f *.o $(ALL_EXEC) 
-	@mkdir -p $(BINARIES_DIR)
 	@cd $(BINARIES_DIR) && rm -f $(ALL_EXEC) 
 
 rebuild: clear all

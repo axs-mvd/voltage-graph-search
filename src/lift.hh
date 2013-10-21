@@ -4,8 +4,6 @@
 #include <tr1/memory>
 #include <limits> 
 
-#include <probe.hh>
-
 #include "graph.hh"
 
 using namespace std;

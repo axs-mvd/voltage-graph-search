@@ -117,7 +117,6 @@ void loop_random_test_zmxzn() {
         generate_m_n_r(m, n, r);
         cout << "m: " << m << " n: " << n << " r: " << r << endl;
         test_involutives_zmxzn(m, n, r);
-        sleep(1);
     }
 }
 
@@ -127,7 +126,6 @@ void loop_random_test_zn() {
         while (n == 0) n = rand() % 500;
 
         test_involutives_zn(n);
-        sleep(1);
     }
 }
 
